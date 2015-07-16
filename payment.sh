@@ -1,10 +1,12 @@
 #!/bin/bash
 
+another="y"
 correcthours=""
+startdate=$(date "+%F")
+enddate=$(date "+%F")
+code="MGHPCC/INTERN"
 
-
-
-
+paytables=()
 
 hoursfun() {
 read correcthours
@@ -29,7 +31,10 @@ fi
 
 paycode() {
 
-if [ $code == "y" ]
+if [ '$code' \< "a" ]; then
+code='MGHPCC/INTERN'
+
+elif [ $code == "y" ]
 then
 	code="MGHPCC/INTERN"
 elif [ $code == "Y" ]
@@ -46,25 +51,66 @@ then
 	read newcode
 	code=$newcode
 
+el
+
+
 fi
 }
 
 
+anotherpay() {
+if [ $another == "Y" ];then 
+	echo "Excellent let's get back into it!"
+elif [ $another == "y" ];then
+	echo "Excellent let's get back into it!"
+elif [ $another == "N" ];then 
+	echo "Ok, I hope this was useful."
+elif [ $another == "n" ];then
+	echo "Ok, I hope this was useful."	
+else
+	echo "Please insert a correct response"
+	read another
+
+fi
+}
+
+
+
+
+
 main() {
+
+
+
+
+
 echo "What is your username?"
 read username
+
+if [ '$username' \< "a"  ];then
+username=$USERNAME
+#echo $username
+
+fi 
 
 echo "What was the start date [YYYY-MM-DD]?"
 read startdate
 
+if [ '$startdate' \< "a" ]; then
+startdate=$(date "+%F")
+#echo $startdate
+fi
 
-echo "What is the start time [00:00-24:00]?"
-read starttime
 
 
 echo "What is the end date [YYYY-MM-DD]?"
 read enddate
+if [ '$enddate' \< "a" ]; then
+enddate=$(date "+%F")
+fi
 
+echo "What is the start time [00:00-24:00]?"
+read starttime
 
 echo "What is the end time [00:00-24:00]?"
 read endtime
@@ -72,9 +118,27 @@ read endtime
 
 hours=$(expr $(date -d "$enddate $endtime" "+%s") - $(date -d "$startdate $starttime" "+%s"))
 hours=$(echo "scale=2; $hours/60" | bc)
-hours1=$(echo "scale=0; $hours%15" | bc)
-hours=$(echo "scale=2; $hours-$hours1" | bc)
+#hours1=$(echo "scale=0; $hours%15" | bc)
+#hours2=$(echo "scale=2; $hours-$hours1" | bc)
+#hours=$(echo "scale=2; $hours2/60" | bc)
 hours=$(echo "scale=2; $hours/60" | bc)
+
+rounding=${hours: -2}
+if [ $rounding -gt 0 ] && [ $rounding -lt 13 ];then
+	hours=${hours/%$rounding/00}
+elif [ $rounding -gt 12 ] && [ $rounding -lt 38 ];then
+	hours=${hours/%$rounding/25}
+elif [ $rounding -gt 37 ] && [ $rounding -lt 63 ];then
+	hours=${hours/%$rounding/50}
+elif [ $rounding -gt 62 ] && [ $rounding -lt 88 ];then
+	hours=${hours/%$rounding/75}
+elif [ $rounding -gt 87 ] && [ $rounding -lt 100 ];then
+	hours=${hours/%$rounding/}
+	hours=$(echo "scale=2; $hours+1." | bc)
+fi
+	 
+
+
 
 
 
@@ -96,15 +160,29 @@ paycode
 
 echo "What did you do today?"
 read didtoday
-
 echo "Your payment information is" 
 echo ""
 echo ""
-echo $username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday
+table=$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday
+paytables=(${paytables[@]} $table )
+echo $table
 echo ""
 echo ""
+echo ""
+echo ""
+echo "Would you like to create another pay table? [Y/N]"
+read another
+anotherpay
 }
 
+while [[ $another == 'Y' ]];do
 main
-
-
+done
+while  [[ $another == 'y' ]];do
+main
+done
+echo "Thanks for using this tool!"
+echo "Here are all the tables you made!"
+echo ""
+echo ""
+printf '%s\n' "${paytables[@]}"
