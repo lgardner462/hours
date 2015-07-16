@@ -34,24 +34,23 @@ paycode() {
 if [ '$code' \< "a" ]; then
 code='MGHPCC/INTERN'
 
-elif [ $code == "y" ]
-then
-	code="MGHPCC/INTERN"
-elif [ $code == "Y" ]
-then
-	code = "MGHPCC/INTERN"
-elif [ $code == "n" ]
-then
-	echo "What is your payment classification code?"
-	read newcode
-	code=$newcode
-elif [ $code == "N" ]
-then 
-	echo "What is your payment classification code?"
-	read newcode
-	code=$newcode
+#elif [ $code == "y" ]
+#then
+#	code="MGHPCC/INTERN"
+#elif [ $code == "Y" ]
+#then
+#	code = "MGHPCC/INTERN"
+#elif [ $code == "n" ]
+#then
+#	echo "What is your payment classification code?"
+#	read newcode
+#	code=$newcode
+#elif [ $code == "N" ]
+#then 
+#	echo "What is your payment classification code?"
+#	read newcode
+#	code=$newcode
 
-el
 
 
 fi
@@ -152,9 +151,10 @@ echo "Is this correct? [Y/N]"
 hoursfun
 
 
-echo "Is your code MGHPCC/INTERN?"
+echo "What is your pay code?"
 
 read code
+
 
 paycode
 
@@ -163,9 +163,9 @@ read didtoday
 echo "Your payment information is" 
 echo ""
 echo ""
-table=$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday
+table="\n"$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
 paytables=(${paytables[@]} $table )
-echo $table
+echo -e $table
 echo ""
 echo ""
 echo ""
@@ -185,4 +185,4 @@ echo "Thanks for using this tool!"
 echo "Here are all the tables you made!"
 echo ""
 echo ""
-printf '%s\n' "${paytables[@]}"
+echo -e ${paytables[@]}
