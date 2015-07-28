@@ -114,7 +114,7 @@ echo "What is your username?"
 read username
 
 if [ '$username' \< "a"  ];then
-username=$USERNAME
+username='lgardner'
 #echo $username
 
 fi 
