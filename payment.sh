@@ -8,6 +8,33 @@ code="MGHPCC/INTERN"
 
 paytables=()
 
+
+hoursfu() {
+hours=$(expr $(date -d "$enddate $endtime" "+%s") - $(date -d "$startdate $starttime" "+%s"))
+hours=$(echo "scale=2; $hours/60" | bc)
+#hours1=$(echo "scale=0; $hours%15" | bc)
+#hours2=$(echo "scale=2; $hours-$hours1" | bc)
+#hours=$(echo "scale=2; $hours2/60" | bc)
+hours=$(echo "scale=2; $hours/60" | bc)
+
+rounding=${hours: -2}
+if [ $rounding -gt 0 ] && [ $rounding -lt 13 ];then
+	hours=${hours/%$rounding/00}
+elif [ $rounding -gt 12 ] && [ $rounding -lt 38 ];then
+	hours=${hours/%$rounding/25}
+elif [ $rounding -gt 37 ] && [ $rounding -lt 63 ];then
+	hours=${hours/%$rounding/50}
+elif [ $rounding -gt 62 ] && [ $rounding -lt 88 ];then
+	hours=${hours/%$rounding/75}
+elif [ $rounding -gt 87 ] && [ $rounding -lt 100 ];then
+	hours=${hours/%$rounding/}
+	hours=$(echo "scale=2; $hours+1." | bc)
+fi
+	 
+echo "Your total amount of hours is" $hours"."
+echo "Is this correct? [Y/N]"
+}
+
 hoursfun() {
 read correcthours
 
@@ -30,8 +57,7 @@ fi
 }
 
 paycode() {
-
-if [ '$code' \< "a" ]; then
+#if [ $code \< "A" ]; then
 code='MGHPCC/INTERN'
 
 #elif [ $code == "y" ]
@@ -50,10 +76,11 @@ code='MGHPCC/INTERN'
 #	echo "What is your payment classification code?"
 #	read newcode
 #	code=$newcode
+#else
+#code=$code
 
 
-
-fi
+#fi
 }
 
 
@@ -115,38 +142,7 @@ echo "What is the end time [00:00-24:00]?"
 read endtime
 
 
-hours=$(expr $(date -d "$enddate $endtime" "+%s") - $(date -d "$startdate $starttime" "+%s"))
-hours=$(echo "scale=2; $hours/60" | bc)
-#hours1=$(echo "scale=0; $hours%15" | bc)
-#hours2=$(echo "scale=2; $hours-$hours1" | bc)
-#hours=$(echo "scale=2; $hours2/60" | bc)
-hours=$(echo "scale=2; $hours/60" | bc)
-
-rounding=${hours: -2}
-if [ $rounding -gt 0 ] && [ $rounding -lt 13 ];then
-	hours=${hours/%$rounding/00}
-elif [ $rounding -gt 12 ] && [ $rounding -lt 38 ];then
-	hours=${hours/%$rounding/25}
-elif [ $rounding -gt 37 ] && [ $rounding -lt 63 ];then
-	hours=${hours/%$rounding/50}
-elif [ $rounding -gt 62 ] && [ $rounding -lt 88 ];then
-	hours=${hours/%$rounding/75}
-elif [ $rounding -gt 87 ] && [ $rounding -lt 100 ];then
-	hours=${hours/%$rounding/}
-	hours=$(echo "scale=2; $hours+1." | bc)
-fi
-	 
-
-
-
-
-
-
-
-
-
-echo "Your total amount of hours is" $hours"."
-echo "Is this correct? [Y/N]"
+hoursfu
 
 hoursfun
 
@@ -186,3 +182,9 @@ echo "Here are all the tables you made!"
 echo ""
 echo ""
 echo -e ${paytables[@]}
+echo 'Would you like to send this email now?'
+read email
+if [ $email == "y" ];then
+	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") " lgardner462@hcc.edu
+else break
+fi
