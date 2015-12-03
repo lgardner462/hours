@@ -182,9 +182,11 @@ echo "Here are all the tables you made!"
 echo ""
 echo ""
 echo -e ${paytables[@]}
+echo "What is your running total of hours?"
+read runningtotal
 echo 'Would you like to send this email now?'
 read email
 if [ $email == "y" ];then
-	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") " lgardner462@hcc.edu
+	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") $runningtotal" sb@techsquare.com
 else break
 fi
