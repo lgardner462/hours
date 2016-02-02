@@ -5,11 +5,46 @@ correcthours=""
 startdate=$(date "+%F")
 enddate=$(date "+%F")
 code="MGHPCC/INTERN"
-
+totalHours=0
 paytables=()
 
+getData() {
 
-hoursfu() {
+
+
+#echo "What is your username?"
+#read username
+
+#if [ '$username' \< "a"  ];then
+username='lgardner'
+#echo $username
+
+#fi 
+
+#echo "What was the start date [YYYY-MM-DD]?"
+#read startdate
+
+#if [ '$startdate' \< "a" ]; then
+startdate=$(date "+%F")
+#echo $startdate
+#fi
+
+
+
+#echo "What is the end date [YYYY-MM-DD]?"
+#read enddate
+#if [ '$enddate' \< "a" ]; then
+enddate=$(date "+%F")
+#fi
+
+}
+
+calculateHours() {
+echo "What is the start time [00:00-24:00]?"
+read starttime
+
+echo "What is the end time [00:00-24:00]?"
+read endtime
 hours=$(expr $(date -d "$enddate $endtime" "+%s") - $(date -d "$startdate $starttime" "+%s"))
 hours=$(echo "scale=2; $hours/60" | bc)
 #hours1=$(echo "scale=0; $hours%15" | bc)
@@ -18,6 +53,7 @@ hours=$(echo "scale=2; $hours/60" | bc)
 hours=$(echo "scale=2; $hours/60" | bc)
 
 rounding=${hours: -2}
+
 if [ $rounding -gt 0 ] && [ $rounding -lt 13 ];then
 	hours=${hours/%$rounding/00}
 elif [ $rounding -gt 12 ] && [ $rounding -lt 38 ];then
@@ -31,23 +67,28 @@ elif [ $rounding -gt 87 ] && [ $rounding -lt 100 ];then
 	hours=$(echo "scale=2; $hours+1." | bc)
 fi
 	 
-echo "Your total amount of hours is" $hours"."
-echo "Is this correct? [Y/N]"
 }
 
 hoursfun() {
+echo "Your total amount of hours is" $hours"."
+echo "Is this correct? [Y/N]"
+
 read correcthours
 
 if [ $correcthours == "Y" ];then 
-	echo "Excellent!"
+	totalHours=$(echo "$totalHours+$hours" | bc) 
+	echo "Total Hours:" $totalHours
 elif [ $correcthours == "y" ];then
-	echo "Excellent!"
+	totalHours=$(echo "$totalHours+$hours" | bc) 
+	echo "Total Hours:" $totalHours
 elif [ $correcthours == "N" ];then 
-	echo "How many hours did you work"
-	read hours
+	#echo "How many hours did you work"
+	#read hours
+	calculateHours
 elif [ $correcthours == "n" ];then
-	echo "How many hours did you work?"
-	read hours
+	#echo "How many hours did you work?"
+	#read hours
+	calculateHours
 	
 else
 	echo "Please insert a correct response"
@@ -56,9 +97,9 @@ fi
 
 }
 
-paycode() {
+#paycode() {
 #if [ $code \< "A" ]; then
-code='MGHPCC/INTERN'
+#code='MGHPCC/INTERN'
 
 #elif [ $code == "y" ]
 #then
@@ -81,10 +122,32 @@ code='MGHPCC/INTERN'
 
 
 #fi
+#}
+
+didToday() {
+
+
+echo "What did you do today?"
+read didtoday
+
+
 }
 
 
-anotherpay() {
+anotherPay() {
+echo "Your payment information is" 
+echo ""
+echo ""
+table="\n"$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
+paytables=(${paytables[@]} $table )
+echo -e $table
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Would you like to create another pay table? [Y/N]"
+read another
+
 if [ $another == "Y" ];then 
 	echo "Excellent let's get back into it!"
 elif [ $another == "y" ];then
@@ -107,83 +170,31 @@ fi
 main() {
 
 
+getData
 
-
-
-echo "What is your username?"
-read username
-
-if [ '$username' \< "a"  ];then
-username='lgardner'
-#echo $username
-
-fi 
-
-echo "What was the start date [YYYY-MM-DD]?"
-read startdate
-
-if [ '$startdate' \< "a" ]; then
-startdate=$(date "+%F")
-#echo $startdate
-fi
-
-
-
-echo "What is the end date [YYYY-MM-DD]?"
-read enddate
-if [ '$enddate' \< "a" ]; then
-enddate=$(date "+%F")
-fi
-
-echo "What is the start time [00:00-24:00]?"
-read starttime
-
-echo "What is the end time [00:00-24:00]?"
-read endtime
-
-
-hoursfu
+calculateHours
 
 hoursfun
 
+#paycode
 
-echo "What is your pay code?"
+didToday
 
-read code
-
-
-paycode
-
-echo "What did you do today?"
-read didtoday
-echo "Your payment information is" 
-echo ""
-echo ""
-table="\n"$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
-paytables=(${paytables[@]} $table )
-echo -e $table
-echo ""
-echo ""
-echo ""
-echo ""
-echo "Would you like to create another pay table? [Y/N]"
-read another
-anotherpay
+anotherPay
 }
 
-while [[ $another == 'Y' ]];do
-main
-done
 while  [[ $another == 'y' ]];do
 main
 done
-echo "Thanks for using this tool!"
-echo "Here are all the tables you made!"
-echo ""
 echo ""
 echo -e ${paytables[@]}
-echo "What is your running total of hours?"
-read runningtotal
+echo ""
+echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')-paytables
+#touch /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')
+echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')-hours
+runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')-hours))
+echo "runningTotal: $runningTotal"
+
 echo 'Would you like to send this email now?'
 read email
 if [ $email == "y" ];then
