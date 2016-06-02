@@ -8,7 +8,6 @@ code="MGHPCC/INTERN"
 totalHours=0
 paytables=()
 
-
 getData() {
 
 
@@ -190,26 +189,15 @@ done
 echo ""
 echo -e ${paytables[@]}
 echo ""
-if [ $(date -d "$D" '+%d') -gt 25 ];then
-
-
-
-echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date -d '10 days' "+%m-20%y")-paytables
-echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date -d '+10 days' "+%m-20%y")-hours
-runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date -d '10 days' "+%m-20%y")-hours))
-else
-
-	echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date  "+%m-20%y")-paytables
+echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')-paytables
 #touch /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')
-	echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date  "+%m-20%y")-hours
-runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date  "+%m-20%y")-hours))
-fi
-	echo "runningTotal: $runningTotal"
-
+echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')-hours
+runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')-hours))
+echo "runningTotal: $runningTotal"
 
 echo 'Would you like to send this email now?'
 read email
 if [ $email == "y" ];then
-	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") $runningTotal" sb@techsquare.com
+	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") $runningtotal" sb@techsquare.com
 else break
 fi

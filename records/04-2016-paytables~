@@ -1,0 +1,20 @@
+lgardner|2016-03-25|11:30|2016-03-25|14:15|2.75|MGHPCC/INTERN|Y|N|fixed script to properly display running total of hours, managed to get web page to display secondary group list properly and update the proper text files, will follow up on tuesday
+ 
+lgardner|2016-03-29|11:00|2016-03-29|18:53|8|MGHPCC/INTERN|Y|N|worked on webpage, helped danny and paul rack a switch, helped danny with his calender
+
+
+lgardner|2016-04-01|11:40|2016-04-01|16:39|5|MGHPCC/INTERN|Y|N|finished up webapp checkboxes(hopefully) and solved problem with python->bottle syntax
+
+
+
+lgardner|2016-04-05|10:45|2016-04-05|14:45|4.00|MGHPCC/INTERN|Y|N|went over webapp/git with sb, discussed future plans with andre, helped paul run fiber
+
+
+lgardner|2016-04-12|11:00|2016-04-12|17:15|6.25|MGHPCC/INTERN|Y|N|worked with andre to learn about RackTables, set up vm to test RackTables on, helped danny with his google calender app a bit
+
+
+lgardner|2016-04-15|11:28|2016-04-15|12:53|1.50|MGHPCC/INTERN|Y|N|working on setting up vm for racktables, installed mysql and created/setup database for racktables, need to learn how to create a php webserver on local machin
+
+
+lgardner|2016-04-26|10:15|2016-04-26|15:59|5.75|MGHPCC/INTERN|Y|N|setup vm to use racktables on vm and physical machine, need to figure out how to let connect to racktables remotely
+

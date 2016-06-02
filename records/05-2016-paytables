@@ -1,0 +1,24 @@
+
+lgardner|2016-04-26|10:15|2016-04-26|16:19|6.00|MGHPCC/INTERN|Y|N|finished setting up racktables on vm, am able to access from both vm and local host, just need to figure out how to access remotely
+
+
+lgardner|2016-05-03|1015|2016-05-03|1630|6.25|MGHPCC/INTERN|Y|N|debugged nodes 095 096 and 100, power cycled 127, installed new node and ran cables with paul and christof, swapped out bad drive with sb
+
+
+lgardner|2016-05-06|12:00|2016-05-06|16:00|4.00|MGHPCC/INTERN|Y|N|racktables with andre
+
+
+lgardner|2016-05-10|10:33|2016-05-10|18:26|8|MGHPCC/INTERN|Y|N|racktables with andre, finished c15 and c13, helped danny with his salt, working on gcc
+
+
+lgardner|2016-05-12|11:30|2016-05-12|17:17|5.75|MGHPCC/INTERN|Y|N|racked 6 switches and 18 nodes, finished config and prereqs for gcc, just need to compile.
+
+
+lgardner|2016-05-16|12:50|2016-05-16|17:43|5|MGHPCC/INTERN|Y|N|fixed config for gcc, started building gcc, read up a bunch on make/netcdf/svn, helped power down nodes
+
+
+lgardner|2016-05-18|10:30|2016-05-18|15:15|4.75|MGHPCC/INTERN|Y|N|moved nodes with danny and eric, got gcc to compile, recabled nodes with danny
+
+
+lgardner|2016-05-24|11:00|2016-05-24|17:23|6.50|MGHPCC/INTERN|Y|N|racktables with andre, racked a node with paul and other interns, fixed gcc compile issue, looking into racktables api
+

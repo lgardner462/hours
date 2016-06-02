@@ -1,0 +1,9 @@
+
+lgardner|2016-05-26|10:30|2016-05-26|17:11|6.75|MGHPCC/INTERN|Y|N|racked nodes with paul, gcc, learned to get macs from new nodes
+
+
+lgardner|2016-05-27|12:00|2016-05-27|17:32|5.50|MGHPCC/INTERN|Y|N|changed boot order/hyperthreading/got macs for LOMs for new nodes, small amount of gcc work
+
+
+lgardner|2016-05-31|9|2016-05-31|17:53|9|MGHPCC/INTERN|Y|N|debugged 3 nodes, swapped out an ib card, finally finished compiling gcc, made gcc module, got netcdf going
+
