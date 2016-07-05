@@ -139,7 +139,8 @@ anotherPay() {
 echo "Your payment information is" 
 echo ""
 echo ""
-table="\n"$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
+space=" "
+table="\n"$username"|"$startdate$space$starttime"|"$enddate$space$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
 paytables=(${paytables[@]} $table )
 echo -e $table
 echo ""

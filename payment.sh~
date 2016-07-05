@@ -139,7 +139,8 @@ anotherPay() {
 echo "Your payment information is" 
 echo ""
 echo ""
-table="\n"$username"|"$startdate"|"$starttime"|"$enddate"|"$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
+space=" "
+table="\n"$username"|"$startdate$space$starttime"|"$enddate$space$endtime"|"$hours"|"$code"|Y|N|"$didtoday"\n"
 paytables=(${paytables[@]} $table )
 echo -e $table
 echo ""
@@ -194,15 +195,15 @@ if [ $(date -d "$D" '+%d') -gt 25 ];then
 
 
 
-echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date -d '+1 month' "+%m-%y")-paytables
-echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date -d '+1 month' "+%m-%y")-hours
-runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date -d '+1 month' "+%m-%y")-hours))
+echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date -d '10 days' "+%m-20%y")-paytables
+echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date -d '+10 days' "+%m-20%y")-hours
+runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date -d '10 days' "+%m-20%y")-hours))
 else
 
-	echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date  "+%m-%y")-paytables
+	echo -e ${paytables[@]} >> /home/Lawrence/git/hours/records/$(date  "+%m-20%y")-paytables
 #touch /home/Lawrence/git/hours/records/$(date -d "$D" '+%m')-$(date -d "$D" '+%Y')
-	echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date  "+%m-%y")-hours
-runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date  "+%m-%y")-hours))
+	echo "$totalHours" >> /home/Lawrence/git/hours/records/$(date  "+%m-20%y")-hours
+runningTotal=$(echo $(awk '{s+=$1} END {print s}' /home/Lawrence/git/hours/records/$(date  "+%m-20%y")-hours))
 fi
 	echo "runningTotal: $runningTotal"
 
@@ -210,6 +211,6 @@ fi
 echo 'Would you like to send this email now?'
 read email
 if [ $email == "y" ];then
-	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") $runningTotal" sb@techsquare.com
+	echo -e "${paytables[@]}" | mail -s "hours for $(date "+%F") $runningTotal" lgardner@techsquare.com
 else break
 fi
